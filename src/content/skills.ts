@@ -1,9 +1,10 @@
+// Languages first: Java and React are what recruiters look for before anything else.
 export const skillGroups = [
+  { id: "languages", label: "Languages & frameworks" },
   { id: "backend", label: "Core backend" },
   { id: "data", label: "Messaging & data" },
-  { id: "ai", label: "AI & agentic development" },
   { id: "cloud", label: "Cloud & DevOps" },
-  { id: "languages", label: "Languages & frameworks" },
+  { id: "ai", label: "AI & agentic development" },
 ] as const;
 
 export type SkillGroupId = (typeof skillGroups)[number]["id"];

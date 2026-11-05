@@ -16,7 +16,13 @@ describe("contact links", () => {
     expect(url.searchParams.get("text")).toBe(profile.contact.whatsappGreeting);
   });
 
-  it("builds a mailto link with an encoded subject", () => {
-    expect(mailtoUrl()).toBe(`mailto:${profile.contact.email}?subject=Hello%20from%20your%20portfolio`);
+  it("builds a mailto link with an encoded subject and recruiter template", () => {
+    const url = mailtoUrl();
+    expect(url.startsWith(`mailto:${profile.contact.email}?`)).toBe(true);
+    const params = new URLSearchParams(url.split("?")[1]);
+    expect(params.get("subject")).toBe("Job opportunity for Siddhant Dalal");
+    expect(params.get("body")).toBe(profile.contact.emailBody);
+    // Mail apps need %20 for spaces; a "+" would show up literally in the subject.
+    expect(url).not.toContain("+");
   });
 });

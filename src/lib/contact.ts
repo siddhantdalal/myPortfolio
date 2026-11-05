@@ -2,7 +2,7 @@ import { profile } from "@/content/profile";
 
 export type Channel = "email" | "call" | "whatsapp";
 
-const { email, phoneParts, whatsappGreeting, emailSubject } = profile.contact;
+const { email, phoneParts, whatsappGreeting, emailSubject, emailBody } = profile.contact;
 
 /** Assembled on demand so the full number is never written into the page. */
 export function phoneNumber(): string {
@@ -15,7 +15,7 @@ export function displayPhone(): string {
 }
 
 export function mailtoUrl(): string {
-  return `mailto:${email}?subject=${encodeURIComponent(emailSubject)}`;
+  return `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 }
 
 export function telUrl(): string {
