@@ -39,14 +39,14 @@ export const experience = [
     role: "Software Developer",
     location: "Pune, India",
     start: "2025-08",
-    end: null,
+    end: "2026-10",
     summary:
-      "I own Java and Python microservices end to end for fintech and banking clients, with LLM features built into the backend.",
+      "I owned Java and Python microservices end to end for fintech and banking clients, with LLM features built into the backend.",
     highlights: [
-      "Own and deliver Java 8 Spring Boot and Python microservices (Spring MVC, Spring Data JPA, OAuth2) end to end across fintech and banking engagements, in Agile / Scrum.",
+      "Owned and delivered Java 8 Spring Boot and Python microservices (Spring MVC, Spring Data JPA, OAuth2) end to end across fintech and banking engagements, in Agile / Scrum.",
       "Integrated LLM capabilities through Anthropic Claude and AWS Bedrock into backend services across multiple products.",
       "Cut p95 REST API latency by ~30% with Redis caching and advanced SQL: CTEs, indexing and PostgreSQL tuning.",
-      "Ship through CI/CD on AWS and Linux, with heavy use of GitHub Copilot and Cursor.",
+      "Shipped through CI/CD on AWS and Linux, with heavy use of GitHub Copilot and Cursor.",
     ],
     metrics: [{ value: 30, prefix: "−", suffix: "%", label: "p95 API latency" }],
     skills: [

@@ -33,7 +33,7 @@ export const profile = {
    * `hero` marks the three strongest, repeated above the fold.
    */
   metrics: [
-    { value: 5, suffix: "+ yrs", label: "building backends", source: "2021 – today" },
+    { value: 5, suffix: " yrs", label: "building backends", source: "2021 – 2026" },
     { value: 99.9, decimals: 1, suffix: "%", label: "uptime", source: "William Hill", hero: true },
     { value: 500, suffix: "K+", label: "transactions a day", source: "William Hill", hero: true },
     { value: 30, prefix: "−", suffix: "%", label: "p95 API latency", source: "TechBulls", hero: true },
