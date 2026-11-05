@@ -1,4 +1,5 @@
 import { profile } from "@/content/profile";
+import { withBasePath } from "@/lib/paths";
 import { AnimatedName } from "../hero/animated-name";
 import { HeroBackdrop } from "../hero/hero-backdrop";
 import { RotatingText } from "../hero/rotating-text";
@@ -65,7 +66,7 @@ export function Hero() {
               </a>
             </Magnetic>
             <a
-              href={profile.resume}
+              href={withBasePath(profile.resume)}
               download
               className="group inline-flex h-12 items-center gap-2 px-3 text-sm text-muted transition-colors hover:text-fg"
             >

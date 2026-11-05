@@ -1,6 +1,6 @@
 # Siddhant Dalal: portfolio
 
-Personal portfolio at **https://siddhantdalal.github.io**: experience, projects with live architecture
+Personal portfolio at **https://siddhantdalal.github.io/myPortfolio/**: experience, projects with live architecture
 diagrams, skills traced to where they were used, and one-tap email / call / WhatsApp.
 
 Built with Next.js (static export), TypeScript, Tailwind CSS and Motion. Hosted on GitHub Pages.

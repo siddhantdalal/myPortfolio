@@ -4,7 +4,7 @@ export const profile = {
   name: "Siddhant Dalal",
   role: "Java Backend Engineer",
   location: "Nagpur, India",
-  url: "https://siddhantdalal.github.io",
+  url: "https://siddhantdalal.github.io/myPortfolio",
   description:
     "Java backend engineer with 5 years of building scalable Spring Boot microservices for financial services and fintech, now integrating LLMs (Anthropic Claude, AWS Bedrock) into production backends.",
   /** Rotating phrases in the hero: "I build …". */

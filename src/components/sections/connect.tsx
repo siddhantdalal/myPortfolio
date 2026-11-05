@@ -1,4 +1,5 @@
 import { profile } from "@/content/profile";
+import { withBasePath } from "@/lib/paths";
 import { ConnectChannels, CopyEmailButton } from "../connect/connect-channels";
 import { ArrowUpRightIcon, DownloadIcon, GitHubIcon, LinkedInIcon } from "../icons";
 import { Reveal } from "../ui/reveal";
@@ -39,7 +40,7 @@ export function ConnectSection() {
             GitHub
             <ArrowUpRightIcon className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
-          <a href={profile.resume} download className={linkClass}>
+          <a href={withBasePath(profile.resume)} download className={linkClass}>
             <DownloadIcon className="transition-transform duration-300 group-hover:translate-y-0.5" />
             Résumé (PDF)
           </a>

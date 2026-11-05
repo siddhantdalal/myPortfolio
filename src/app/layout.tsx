@@ -23,13 +23,14 @@ const geistMono = Geist_Mono({
 const title = `${profile.name} | ${profile.role}`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(profile.url),
+  // Origin only: Next.js already adds the base path to generated image URLs.
+  metadataBase: new URL(new URL(profile.url).origin),
   title,
   description: profile.description,
   authors: [{ name: profile.name, url: profile.url }],
   openGraph: {
     type: "profile",
-    url: "/",
+    url: profile.url,
     title,
     description: profile.description,
     siteName: profile.name,

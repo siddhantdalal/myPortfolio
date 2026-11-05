@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Experience } from "@/content/experience";
+import { withBasePath } from "@/lib/paths";
 
 /** Area in px² each logo covers; wide and compact logos then read at the same visual weight. */
 const AREA = { sm: 1150, md: 2600 } as const;
@@ -17,7 +18,7 @@ export function CompanyLogo({ company, size = "md", active, className = "" }: Co
   const style = {
     width: Math.round(Math.sqrt(AREA[size] * ratio)),
     height: Math.round(Math.sqrt(AREA[size] / ratio)),
-    "--logo": `url(${company.logo.src})`,
+    "--logo": `url(${withBasePath(company.logo.src)})`,
     "--brand-dark": company.brand.dark,
     "--brand-light": company.brand.light,
   } as CSSProperties;

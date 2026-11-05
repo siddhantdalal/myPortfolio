@@ -14,6 +14,7 @@ import {
 import { sections } from "@/content/navigation";
 import { profile } from "@/content/profile";
 import { copyEmail, openChannel } from "@/lib/connect-actions";
+import { withBasePath } from "@/lib/paths";
 import { toggleTheme } from "@/lib/theme";
 import {
   ArrowRightIcon,
@@ -64,7 +65,7 @@ function buildCommands(): Command[] {
       label: "Download résumé (PDF)",
       group: "More",
       icon: <DownloadIcon />,
-      run: () => window.open(profile.resume, "_blank", "noopener"),
+      run: () => window.open(withBasePath(profile.resume), "_blank", "noopener"),
     },
     {
       id: "github",
