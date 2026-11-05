@@ -5,7 +5,7 @@ import { getExperience } from "@/content/experience";
 import type { Project } from "@/content/projects";
 import { getSkill } from "@/content/skills";
 import { ArchitectureDiagram } from "../diagram/architecture-diagram";
-import { ArrowRightIcon } from "../icons";
+import { ArrowRightIcon, CheckIcon } from "../icons";
 import { CompanyLogo } from "../ui/company-logo";
 import { Spotlight } from "../ui/spotlight";
 import { Tag } from "../ui/tag";
@@ -58,6 +58,10 @@ export function ProjectCard({ project, onOpen }: { project: Project; onOpen: () 
             {project.title}
           </button>
         </motion.h3>
+        <p className="mt-2 flex items-start gap-1.5 font-mono text-xs text-accent">
+          <CheckIcon className="mt-px size-3.5 shrink-0" />
+          {project.proof}
+        </p>
         <p className="mt-2 flex-1 text-sm text-pretty text-muted">{project.summary}</p>
 
         <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Technologies">

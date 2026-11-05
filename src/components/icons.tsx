@@ -106,6 +106,14 @@ export function CopyIcon(props: IconProps) {
   );
 }
 
+export function CheckIcon(props: IconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <path d="m5 12.5 4.5 4.5L19 7.5" />
+    </StrokeIcon>
+  );
+}
+
 export function CloseIcon(props: IconProps) {
   return (
     <StrokeIcon {...props}>

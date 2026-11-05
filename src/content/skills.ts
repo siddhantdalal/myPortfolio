@@ -69,6 +69,7 @@ export const skills = [
   { id: "bash", label: "Bash / Shell", group: "languages" },
   { id: "csharp", label: "C# / .NET Core", group: "languages" },
   { id: "react", label: "React", group: "languages" },
+  { id: "angular", label: "Angular", group: "languages" },
   { id: "nodejs", label: "Node.js", group: "languages" },
   { id: "fastapi", label: "FastAPI", group: "languages" },
 ] as const satisfies readonly SkillDefinition[];

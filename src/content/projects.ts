@@ -39,9 +39,13 @@ export type Project = {
   /** The employer it was built for, or `personal` for side projects. */
   org: ExperienceId | "personal";
   categories: readonly ProjectCategory[];
+  /** One line of proof shown on the card: a measured result where there is one, else the key fact. */
+  proof: string;
   summary: string;
   description: string;
   highlights: readonly string[];
+  /** Why it is built the way it is; shown for personal projects, where the full design can be shared. */
+  decisions?: readonly string[];
   skills: readonly SkillId[];
   repo?: string;
   /** Spans two grid columns on wide screens. */
@@ -55,6 +59,7 @@ export const projects = [
     title: "AI Document-to-App Orchestrator",
     org: "personal",
     categories: ["ai", "personal"],
+    proof: "142 pytest tests · Claude, GPT & Gemini",
     featured: true,
     summary:
       "Turns a requirements document into a runnable full-stack app, orchestrating Claude, GPT and Gemini.",
@@ -65,6 +70,12 @@ export const projects = [
       "Provider-agnostic LLM client with adapters for Claude, GPT and Gemini, tool calling and an optional per-job token budget.",
       "Live preview in a Docker Compose sandbox and one-click push to GitHub.",
       "142 pytest tests covering parsing, codegen, validation, reconciliation and the end-to-end job lifecycle.",
+    ],
+    decisions: [
+      "The Spec is the contract: every generated file must trace back to a Spec node, and the reconciler checks that every node was built before anything is packaged.",
+      "One provider-agnostic LLM client with adapters for Anthropic, OpenAI and Gemini, so a job can switch models without touching the pipeline.",
+      "Users bring their own API key: it is sent per request and can be encrypted at rest in the browser (AES-GCM-256, non-extractable master key).",
+      "An optional per-job token budget stops the pipeline cleanly instead of running up cost.",
     ],
     skills: [
       "python",
@@ -106,10 +117,71 @@ export const projects = [
     },
   },
   {
+    id: "orderflow",
+    title: "OrderFlow: E-commerce Order Management",
+    org: "personal",
+    categories: ["event-driven", "personal"],
+    proof: "5 services · Kafka-driven order flow · Angular",
+    summary:
+      "A full-stack store where orders, payments, inventory and notifications are separate services that coordinate through Kafka events.",
+    description:
+      "An Angular storefront with catalogue, cart, checkout and order tracking, backed by Spring Boot microservices behind a JWT-validating Spring Cloud Gateway. Placing an order starts a chain of Kafka events through payment and inventory to confirmation and delivery.",
+    highlights: [
+      "Order lifecycle driven by Kafka events: ORDER_PLACED → PAYMENT_COMPLETED → STOCK_RESERVED → CONFIRMED → SHIPPED → DELIVERED.",
+      "Order, payment, inventory and notification services, each with its own PostgreSQL database.",
+      "Redis caching for products and order status; product images on S3 (LocalStack locally).",
+      "Angular 17 SPA served by Nginx; the whole stack runs with Docker Compose.",
+    ],
+    decisions: [
+      "Choreography over orchestration: services react to each other's events on Kafka instead of calling each other, so they stay decoupled.",
+      "Failures are events too (PAYMENT_FAILED, STOCK_UNAVAILABLE), so the order service always learns the outcome and can update the order.",
+      "A database per service keeps data ownership clear; Redis caches the hot reads (products and order status).",
+    ],
+    skills: [
+      "java",
+      "spring-boot",
+      "spring-security",
+      "microservices",
+      "kafka",
+      "event-driven",
+      "redis",
+      "postgresql",
+      "angular",
+      "typescript",
+      "aws",
+      "docker",
+    ],
+    repo: "https://github.com/siddhantdalal/order-management-system",
+    architecture: {
+      nodes: [
+        { id: "web", label: "Angular SPA", detail: "via Nginx", col: 0, row: 1 },
+        { id: "gw", label: "API Gateway", detail: "JWT · routing", col: 1, row: 1 },
+        { id: "order", label: "Order service", detail: "order lifecycle", col: 2, row: 0 },
+        { id: "payment", label: "Payment service", detail: "Spring Boot", col: 2, row: 1 },
+        { id: "inventory", label: "Inventory service", detail: "stock", col: 2, row: 2 },
+        { id: "db", label: "PostgreSQL", detail: "per service + Redis", col: 3, row: 0 },
+        { id: "kafka", label: "Kafka", detail: "order events", col: 3, row: 1 },
+        { id: "notify", label: "Notifications", detail: "listens to all", col: 3, row: 2 },
+      ],
+      edges: [
+        { from: "web", to: "gw" },
+        { from: "gw", to: "order" },
+        { from: "order", to: "db" },
+        { from: "order", to: "kafka" },
+        { from: "kafka", to: "payment" },
+        { from: "kafka", to: "inventory" },
+        { from: "kafka", to: "notify" },
+      ],
+      caption:
+        "No service calls another directly: each reacts to the previous event, and notifications listen to all of them.",
+    },
+  },
+  {
     id: "ai-interviewer",
     title: "AI-Interviewer",
     org: "techbulls",
     categories: ["ai"],
+    proof: "Claude on AWS Bedrock · tool calling",
     summary: "An LLM-powered platform that runs multi-turn interviews and scores candidate answers.",
     description:
       "Generates interview questions, conducts multi-turn interviews and evaluates and scores candidate responses, with Claude on AWS Bedrock doing the reasoning through tool calls.",
@@ -155,6 +227,7 @@ export const projects = [
     title: "Supply Chain Finance Platform",
     org: "techbulls",
     categories: ["fintech", "ai"],
+    proof: "Banking clients · LLM-assisted workflows",
     summary: "Invoice-financing and vendor-funding workflows for banking clients, with LLM assistance.",
     description:
       "Spring Boot microservices that run invoice-financing and vendor-funding workflows for banks, with Anthropic Claude on AWS Bedrock integrated into the flow.",
@@ -203,6 +276,7 @@ export const projects = [
     title: "Dispute & Chargeback Product",
     org: "techbulls",
     categories: ["fintech", "ai"],
+    proof: "Full chargeback lifecycle · LLM-assisted",
     summary: "Manages the full lifecycle of card and payment disputes and chargebacks.",
     description:
       "Card / payment dispute and chargeback lifecycle management on Spring Boot, with Anthropic Claude on AWS Bedrock integrated, and advanced SQL on PostgreSQL behind it.",
@@ -246,6 +320,7 @@ export const projects = [
     title: "Field-Force CRM for Bank Field Staff",
     org: "techbulls",
     categories: ["fintech"],
+    proof: "Bank field staff · OAuth2 + Redis",
     summary: "Lead, customer and field-visit management for banking field employees.",
     description:
       "A CRM for bank field staff covering leads, customers and field visits, built on Java 8 and Spring Boot with OAuth2, PostgreSQL and Redis on AWS.",
@@ -287,6 +362,7 @@ export const projects = [
     title: "Publication Suite",
     org: "inbetween",
     categories: ["event-driven", "ai"],
+    proof: "−40% async processing latency",
     summary: "Automated multi-format publishing with data ingestion and AI-suggested templates.",
     description:
       "An automated multi-format publication platform: content is ingested through ETL pipelines, flows through Kafka event streams to the publishing services, and users get AI-suggested templates.",
@@ -336,6 +412,7 @@ export const projects = [
     title: "Transactions & Betting Portal",
     org: "william-hill",
     categories: ["fintech", "event-driven"],
+    proof: "99.9% uptime · 500K+ transactions a day",
     summary: "High-throughput transactions, bet placement and settlement: 500K+ transactions a day.",
     description:
       "A high-throughput portal for managing transactions, placing bets and settling them. Synchronous workflows were moved to multithreaded, Kafka event-driven processing on Azure AKS.",
@@ -381,6 +458,7 @@ export const projects = [
     title: "SimRT & AlignRT",
     org: "vision-rt",
     categories: ["healthcare"],
+    proof: "~90% unit-test coverage · safety-critical",
     summary: "Backend services and imaging workflows for surface-guided radiation therapy.",
     description:
       "Backend services and imaging workflows for clinical patient-positioning software used in surface-guided radiation therapy, where reliability is not optional.",
@@ -410,6 +488,7 @@ export const projects = [
     title: "Real-Time Chat Platform",
     org: "personal",
     categories: ["event-driven", "personal"],
+    proof: "4 services · WebSocket + Kafka + Redis",
     summary: "Instant messaging over WebSocket/STOMP, with Kafka fan-out and Redis presence.",
     description:
       "A full-stack chat app split into auth, chat and presence services behind a Spring Cloud Gateway. Messages travel over WebSocket/STOMP, Kafka distributes events between services, and Redis tracks who is online.",
@@ -418,6 +497,11 @@ export const projects = [
       "Presence and typing indicators, read receipts and cursor-paginated history.",
       "JWT auth at the gateway, which also passes WebSocket traffic through.",
       "Whole stack runs with Docker Compose.",
+    ],
+    decisions: [
+      "Kafka carries chat events between services, so the presence service never calls the chat service directly.",
+      "JWTs are validated once, at the gateway, which also passes WebSocket traffic straight through to the chat service.",
+      "Presence lives in Redis; message history uses cursor-based pagination so long conversations stay fast to scroll.",
     ],
     skills: [
       "java",
@@ -462,6 +546,7 @@ export const projects = [
     title: "Loan Application Microservices",
     org: "personal",
     categories: ["fintech", "event-driven", "personal"],
+    proof: "Event-driven · a database per service",
     summary: "Users, loans and notifications as separate services, talking through Kafka.",
     description:
       "A loan-application system with user, loan and notification services behind a JWT-validating Spring Cloud Gateway. Services publish events to Kafka instead of calling each other, with Redis caching and a PostgreSQL database per service.",
@@ -470,6 +555,11 @@ export const projects = [
       "Redis distributed caching and a PostgreSQL database per service.",
       "Spring Security + JWT at the gateway; React UI served by Nginx.",
       "Whole stack runs with Docker Compose.",
+    ],
+    decisions: [
+      "User and loan services publish events and the notification service consumes them, keeping notifications out of the loan workflow.",
+      "A PostgreSQL database per service, with Redis as a distributed cache.",
+      "Spring Cloud Gateway validates JWTs and routes requests to the right service.",
     ],
     skills: [
       "java",

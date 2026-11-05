@@ -6,7 +6,7 @@ import { getExperience } from "@/content/experience";
 import type { Project } from "@/content/projects";
 import { getSkill } from "@/content/skills";
 import { ArchitectureDiagram } from "../diagram/architecture-diagram";
-import { ArrowUpRightIcon, CloseIcon, GitHubIcon } from "../icons";
+import { ArrowUpRightIcon, CheckIcon, CloseIcon, GitHubIcon } from "../icons";
 import { Tag } from "../ui/tag";
 import { OrgBadge } from "./project-card";
 
@@ -109,7 +109,11 @@ export function ProjectDialog({ project, onClose }: { project: Project; onClose:
             exit={{ opacity: 0, transition: { duration: 0.1 } }}
             transition={{ delay: 0.15, duration: 0.4 }}
           >
-            <p className="mt-3 max-w-3xl text-pretty text-muted">{project.description}</p>
+            <p className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-accent/25 bg-accent-soft px-3 py-1.5 font-mono text-xs text-accent">
+              <CheckIcon className="size-3.5 shrink-0" />
+              {project.proof}
+            </p>
+            <p className="mt-4 max-w-3xl text-pretty text-muted">{project.description}</p>
 
             <figure className="mt-7 rounded-xl border border-line bg-bg/60 p-4 sm:p-5">
               <figcaption className="mb-4 flex items-center justify-between gap-3 font-mono text-[10px] tracking-widest text-subtle uppercase">
@@ -127,6 +131,25 @@ export function ProjectDialog({ project, onClose }: { project: Project; onClose:
               </div>
               <p className="mt-4 text-xs text-pretty text-muted">{project.architecture.caption}</p>
             </figure>
+
+            {project.decisions && (
+              <div className="mt-8">
+                <h4 className="font-mono text-[10px] tracking-widest text-subtle uppercase">
+                  Design decisions
+                </h4>
+                <ol className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {project.decisions.map((decision, index) => (
+                    <li
+                      key={decision}
+                      className="flex gap-3 rounded-xl border border-line bg-surface/50 p-4 text-sm"
+                    >
+                      <span className="font-mono text-xs text-accent">0{index + 1}</span>
+                      <span className="text-pretty text-muted">{decision}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
 
             <div className="mt-8 grid gap-8 md:grid-cols-[1.4fr_1fr]">
               <div>
