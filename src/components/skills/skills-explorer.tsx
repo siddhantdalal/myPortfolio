@@ -9,6 +9,8 @@ import { usageOf } from "@/lib/skill-usage";
 import { CompanyLogo } from "../ui/company-logo";
 import { Stagger, StaggerItem } from "../ui/reveal";
 
+const MOBILE_GROUPS = 2;
+
 /**
  * Skills with proof: pointing at a skill lights up every role and project that used it.
  * Hover previews on mouse; a click or tap pins the selection so it also works on touch screens.
@@ -16,6 +18,11 @@ import { Stagger, StaggerItem } from "../ui/reveal";
 export function SkillsExplorer() {
   const [hovered, setHovered] = useState<SkillId | null>(null);
   const [pinned, setPinned] = useState<SkillId | null>(null);
+  // Phones show the core groups first; the rest stay in the page (for search) behind one tap.
+  const [showAll, setShowAll] = useState(false);
+  const hiddenCount = skills.filter((skill) =>
+    skillGroups.slice(MOBILE_GROUPS).some((group) => group.id === skill.group),
+  ).length;
   const active = hovered ?? pinned;
   const usage = active ? usageOf(active) : null;
 
@@ -25,8 +32,11 @@ export function SkillsExplorer() {
   return (
     <div className="grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:gap-14">
       <Stagger className="space-y-8">
-        {skillGroups.map((group) => (
-          <StaggerItem key={group.id}>
+        {skillGroups.map((group, index) => (
+          <StaggerItem
+            key={group.id}
+            className={index >= MOBILE_GROUPS && !showAll ? "max-md:hidden" : undefined}
+          >
             <h3 className="mb-3 font-mono text-[11px] tracking-widest text-subtle uppercase">
               {group.label}
             </h3>
@@ -67,6 +77,15 @@ export function SkillsExplorer() {
             </ul>
           </StaggerItem>
         ))}
+        {!showAll && (
+          <button
+            type="button"
+            onClick={() => setShowAll(true)}
+            className="rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-line-strong hover:text-fg md:hidden"
+          >
+            Show all skills (+{hiddenCount})
+          </button>
+        )}
       </Stagger>
 
       <div className="lg:sticky lg:top-24 lg:self-start">
