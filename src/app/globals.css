@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+/* Dark is the default theme and what the server renders; light overrides the same tokens. */
+:root {
+  color-scheme: dark;
+  --bg: #0a0a0b;
+  --elevated: #111113;
+  --surface: #18181b;
+  --fg: #ededee;
+  --muted: #a1a1aa;
+  --subtle: #71717a;
+  --line: #27272a;
+  --line-strong: #3f3f46;
+  --accent: #f5a524;
+  --accent-fg: #0a0a0b;
+  --accent-soft: rgb(245 165 36 / 0.12);
+  --ok: #34d399;
+  --grid: rgb(255 255 255 / 0.045);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #fafaf9;
+  --elevated: #ffffff;
+  --surface: #f4f4f5;
+  --fg: #18181b;
+  --muted: #52525b;
+  --subtle: #71717a;
+  --line: #e4e4e7;
+  --line-strong: #d4d4d8;
+  --accent: #b45309;
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(180 83 9 / 0.09);
+  --ok: #059669;
+  --grid: rgb(0 0 0 / 0.05);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-elevated: var(--elevated);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  /* Keeps section headings clear of the fixed header when jumped to. */
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+/* The theme switch animates the new snapshot with a circular clip (see lib/theme.ts). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@layer components {
+  /* Cursor-following glow; Spotlight sets --mx / --my on pointer move. */
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, -20%),
+      var(--accent-soft),
+      transparent 65%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+
+  .spotlight:hover::before,
+  .spotlight:focus-within::before {
+    opacity: 1;
+  }
+
+  /*
+   * Company logos are single-colour silhouettes used as masks, so they can be tinted: muted by
+   * default, brand colour when their card is hovered or the logo is marked active.
+   */
+  .logo-mark {
+    --brand: var(--brand-dark);
+    display: inline-block;
+    flex: none;
+    color: var(--muted);
+    background-color: currentColor;
+    -webkit-mask: var(--logo) center / contain no-repeat;
+    mask: var(--logo) center / contain no-repeat;
+    transition: color 0.3s ease;
+  }
+
+  [data-theme="light"] .logo-mark {
+    --brand: var(--brand-light);
+  }
+
+  .group:hover .logo-mark,
+  .group:focus-visible .logo-mark,
+  .logo-mark[data-active="true"] {
+    color: var(--brand);
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@utility animate-pulse-ring {
+  animation: pulse-ring 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
