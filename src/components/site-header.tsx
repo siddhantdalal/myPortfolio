@@ -4,8 +4,9 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { useEffect, useState } from "react";
 import { type SectionId, sections } from "@/content/navigation";
 import { profile } from "@/content/profile";
+import { withBasePath } from "@/lib/paths";
 import { openCommandPalette } from "./command-palette";
-import { CloseIcon, MenuIcon, SearchIcon } from "./icons";
+import { CloseIcon, DownloadIcon, MenuIcon, SearchIcon } from "./icons";
 import { ThemeToggle } from "./theme-toggle";
 
 /** Tracks which section sits in the middle band of the viewport. */
@@ -97,13 +98,28 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={openCommandPalette}
-            className="hidden h-9 items-center gap-2 rounded-full border border-line px-3 text-xs text-muted transition-colors hover:border-line-strong hover:text-fg sm:flex"
+            className="hidden h-9 items-center gap-2 rounded-full border border-line px-3 text-xs text-muted transition-colors hover:border-line-strong hover:text-fg xl:flex"
             aria-label="Open quick actions"
           >
             <SearchIcon className="size-3.5" />
             <kbd className="font-mono">⌘K</kbd>
           </button>
+          <a
+            href={withBasePath(profile.resume)}
+            download
+            className="hidden h-9 items-center gap-1.5 rounded-full px-3 text-sm text-muted transition-colors hover:text-fg lg:flex"
+          >
+            <DownloadIcon className="size-3.5" />
+            Résumé
+          </a>
           <ThemeToggle />
+          <a
+            href="#connect"
+            onClick={() => setMenuOpen(false)}
+            className="inline-flex h-9 items-center rounded-full bg-accent px-4 text-sm font-semibold text-accent-fg transition-[box-shadow,transform] hover:shadow-lg hover:shadow-accent/25 active:scale-95"
+          >
+            Hire me
+          </a>
           <button
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
@@ -148,6 +164,20 @@ export function SiteHeader() {
                   </a>
                 </motion.li>
               ))}
+              <motion.li
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.05 + sections.length * 0.05 }}
+              >
+                <a
+                  href={withBasePath(profile.resume)}
+                  download
+                  className="flex items-center gap-2 rounded-xl px-4 py-3 text-lg text-accent"
+                >
+                  <DownloadIcon className="size-4" />
+                  Download résumé
+                </a>
+              </motion.li>
             </ul>
           </motion.nav>
         )}

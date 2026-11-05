@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CommandPalette } from "@/components/command-palette";
+import { MobileContactBar } from "@/components/mobile-contact-bar";
 import { Providers } from "@/components/providers";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { SiteFooter } from "@/components/site-footer";
@@ -20,7 +21,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const title = `${profile.name} | ${profile.role}`;
+const title = `${profile.name} | ${profile.role} (Spring Boot, Kafka, AWS)`;
 
 export const metadata: Metadata = {
   // Origin only: Next.js already adds the base path to generated image URLs.
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SiteHeader />
           <main id="main">{children}</main>
           <SiteFooter />
+          <MobileContactBar />
           <CommandPalette />
           <Toaster />
         </Providers>
