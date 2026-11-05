@@ -22,8 +22,8 @@ export function ConnectSection() {
           id="connect-title"
           index="05"
           eyebrow="Connect"
-          title="Let's build something that stays up."
-          description="A role, a project or a question about distributed systems: pick whichever channel suits you."
+          title="Hiring for a Java backend or full-stack role?"
+          description="I'm an immediate joiner, open to remote roles or hybrid / on-site in Mumbai. Pick whichever channel is quickest for you."
         />
         <ConnectChannels />
 

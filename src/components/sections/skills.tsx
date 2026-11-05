@@ -9,8 +9,8 @@ export function SkillsSection() {
           id="skills-title"
           index="04"
           eyebrow="Skills"
-          title="No progress bars. Just where I've used it."
-          description="Hover or tap any skill to light up the roles and projects behind it."
+          title="Skills, and where I've used them."
+          description="Tap any skill to light up the roles and projects behind it."
         />
         <SkillsExplorer />
       </div>

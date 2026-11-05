@@ -9,8 +9,8 @@ export function ProjectsSection() {
           id="projects-title"
           index="03"
           eyebrow="Projects"
-          title="Systems, not screenshots."
-          description="Backend work is mostly invisible, so each project opens into a live diagram of how its requests and events flow. Employer projects are shown at architecture level only."
+          title="What I've built."
+          description="Each project opens into a live diagram of how its requests and events flow. The personal projects link to their code; employer projects are shown at architecture level only."
         />
         <ProjectsExplorer />
       </div>

@@ -11,8 +11,8 @@ export function ExperienceSection() {
           id="experience-title"
           index="02"
           eyebrow="Experience"
-          title="Five teams, two countries."
-          description="From betting payments in London to banking and AI products in Pune: the roles, and what changed because I was there."
+          title="5 years across payments, banking and healthcare."
+          description="Newest first. Open any role for the details and the stack I used there."
         />
         <Timeline>
           {experience.map((role, index) => (
