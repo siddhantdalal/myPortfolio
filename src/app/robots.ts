@@ -1,0 +1,12 @@
+import type { MetadataRoute } from "next";
+import { profile } from "@/content/profile";
+
+// Required for the static (GitHub Pages) export; this file never changes at runtime.
+export const dynamic = "force-static";
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: { userAgent: "*", allow: "/" },
+    sitemap: new URL("/sitemap.xml", profile.url).href,
+  };
+}
