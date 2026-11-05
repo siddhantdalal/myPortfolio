@@ -1,10 +1,11 @@
-"use client";
+import type { CSSProperties } from "react";
 
-import { motion } from "motion/react";
-import { EASE_OUT } from "../ui/reveal";
-
-/** The name rises into place letter by letter on first load. */
+/**
+ * The name rises into place letter by letter on first load. Pure CSS, so it is visible as soon as
+ * the page paints rather than after the JavaScript arrives.
+ */
 export function AnimatedName({ text }: { text: string }) {
+  let index = 0;
   return (
     <>
       <span className="sr-only">{text}</span>
@@ -15,15 +16,13 @@ export function AnimatedName({ text }: { text: string }) {
           className="mr-[0.25em] inline-block overflow-hidden pb-[0.08em] last:mr-0"
         >
           {Array.from(word).map((char, c) => (
-            <motion.span
+            <span
               key={c}
-              className="inline-block"
-              initial={{ y: "110%" }}
-              animate={{ y: "0%" }}
-              transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.15 + (w * 6 + c) * 0.035 }}
+              className="animate-rise inline-block"
+              style={{ animationDelay: `${0.1 + index++ * 0.035}s` } as CSSProperties}
             >
               {char}
-            </motion.span>
+            </span>
           ))}
         </span>
       ))}
