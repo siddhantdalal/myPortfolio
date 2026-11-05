@@ -9,7 +9,7 @@ import { ArrowDownIcon, ArrowRightIcon, DownloadIcon, GitHubIcon, LinkedInIcon }
 import { CompanyLogo } from "../ui/company-logo";
 import { CountUp } from "../ui/count-up";
 import { Magnetic } from "../ui/magnetic";
-import { Reveal } from "../ui/reveal";
+import { Portrait } from "../ui/portrait";
 
 const heroMetrics = profile.metrics.filter((metric) => "hero" in metric && metric.hero);
 
@@ -27,15 +27,16 @@ export function Hero() {
       <HeroBackdrop />
       <div className="mx-auto grid w-full max-w-6xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:gap-10">
         <div>
-          <Reveal y={12}>
-            <p className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-ok/30 bg-ok/10 px-3 py-1.5 text-xs font-medium text-ok">
+          <div className="animate-fade-up mb-5 flex items-center gap-4" style={{ animationDelay: "0s" }}>
+            <Portrait size={72} openToWork priority className="size-[60px] sm:size-[72px]" />
+            <p className="inline-flex items-center gap-2.5 rounded-full border border-ok/30 bg-ok/10 px-3 py-1.5 text-xs font-medium text-ok">
               <span className="relative flex size-2">
                 <span className="animate-pulse-ring absolute inset-0 rounded-full bg-ok" />
                 <span className="relative size-2 rounded-full bg-ok" />
               </span>
               Open to work · {profile.openTo.availability}
             </p>
-          </Reveal>
+          </div>
 
           <h1
             id="hero-title"
@@ -44,7 +45,7 @@ export function Hero() {
             <AnimatedName text={profile.name} />
           </h1>
 
-          <Reveal delay={0.45} y={16}>
+          <div className="animate-fade-up" style={{ animationDelay: "0.35s" }}>
             <p className="mt-4 text-xl font-semibold text-fg sm:text-3xl">{profile.role}</p>
             <p className="mt-2 text-base text-muted sm:text-xl">
               5 years building
@@ -82,9 +83,12 @@ export function Hero() {
                 </div>
               ))}
             </dl>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.6} y={16} className="mt-7 flex flex-wrap items-center gap-3">
+          <div
+            className="animate-fade-up mt-7 flex flex-wrap items-center gap-3"
+            style={{ animationDelay: "0.5s" }}
+          >
             <Magnetic>
               <a
                 href="#connect"
@@ -124,9 +128,9 @@ export function Hero() {
             >
               <GitHubIcon />
             </a>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.75} y={12} className="mt-8">
+          <div className="animate-fade-up mt-8" style={{ animationDelay: "0.65s" }}>
             <p className="font-mono text-[10px] tracking-widest text-subtle uppercase">Experience at</p>
             <ul className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-4">
               {experience.map((role) => (
@@ -139,16 +143,16 @@ export function Hero() {
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </div>
         </div>
 
-        <Reveal delay={0.3} y={0}>
+        <div className="animate-fade-up" style={{ animationDelay: "0.2s" }}>
           <SystemGraph />
           <p className="mt-3 text-center font-mono text-[11px] text-subtle">
             <span className="hidden pointer-fine:inline">Hover</span>
             <span className="pointer-fine:hidden">Tap</span> a component to see where I&apos;ve used it
           </p>
-        </Reveal>
+        </div>
       </div>
 
       <a

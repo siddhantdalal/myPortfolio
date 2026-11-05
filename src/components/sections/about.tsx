@@ -1,20 +1,28 @@
 import { experience } from "@/content/experience";
 import { profile } from "@/content/profile";
+import { formatRange, formatYearMonth } from "@/lib/format";
 import { withBasePath } from "@/lib/paths";
 import { ArrowRightIcon, DownloadIcon } from "../icons";
 import { CountUp } from "../ui/count-up";
+import { Portrait } from "../ui/portrait";
 import { Reveal, Stagger, StaggerItem } from "../ui/reveal";
 import { SectionHeading } from "../ui/section-heading";
 import { Spotlight } from "../ui/spotlight";
 
-const current = experience[0];
+const latest = experience[0];
+// Stamped at build time: every deploy refreshes it, which signals the availability is current.
+const now = new Date();
+const updated = formatYearMonth(`${now.getFullYear()}-${now.getMonth() + 1}`);
 const [masters] = profile.education;
 
 /** The answers to a recruiter's screening questions, in the order they usually ask them. */
 const facts: { label: string; value: string; highlight?: boolean }[] = [
   { label: "Role", value: profile.role },
   { label: "Experience", value: "5 years · India & UK" },
-  { label: "Currently", value: `${current.role}, ${current.company}` },
+  {
+    label: "Most recent",
+    value: `${latest.role}, ${latest.company} (${formatRange(latest.start, latest.end)})`,
+  },
   { label: "Core stack", value: "Java 8–21, Spring Boot, Kafka, Redis, SQL, AWS" },
   { label: "Also", value: "React / TypeScript, LLM integration (Claude, AWS Bedrock)" },
   { label: "Domains", value: profile.domains.join(", ") },
@@ -40,6 +48,16 @@ export function About() {
         <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
           <Reveal>
             <div className="overflow-hidden rounded-2xl border border-line bg-elevated">
+              <div className="flex items-center gap-4 border-b border-line bg-surface/50 px-5 py-4 sm:px-6">
+                <Portrait size={56} />
+                <div className="min-w-0">
+                  <p className="text-base font-semibold">{profile.name}</p>
+                  <p className="text-sm text-muted">{profile.role}</p>
+                </div>
+                <span className="ml-auto hidden shrink-0 rounded-full border border-ok/30 bg-ok/10 px-2.5 py-1 text-xs font-medium text-ok sm:inline">
+                  {profile.openTo.availability}
+                </span>
+              </div>
               <dl className="divide-y divide-line">
                 {facts.map((fact) => (
                   <div
@@ -73,6 +91,7 @@ export function About() {
                   <DownloadIcon className="transition-transform duration-300 group-hover:translate-y-0.5" />
                   Download résumé
                 </a>
+                <p className="ml-auto self-center font-mono text-[10px] text-subtle">Updated {updated}</p>
               </div>
             </div>
           </Reveal>
