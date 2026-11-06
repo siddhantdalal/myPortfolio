@@ -1,8 +1,9 @@
+import type { ReactNode } from "react";
 import { experience } from "@/content/experience";
 import { profile } from "@/content/profile";
 import { formatRange, formatYearMonth } from "@/lib/format";
 import { withBasePath } from "@/lib/paths";
-import { ArrowRightIcon, DownloadIcon } from "../icons";
+import { ArrowRightIcon, ArrowUpRightIcon, DownloadIcon } from "../icons";
 import { CountUp } from "../ui/count-up";
 import { Portrait } from "../ui/portrait";
 import { Reveal, Stagger, StaggerItem } from "../ui/reveal";
@@ -15,8 +16,29 @@ const now = new Date();
 const updated = formatYearMonth(`${now.getFullYear()}-${now.getMonth() + 1}`);
 const [masters] = profile.education;
 
+const certifications = (
+  <ul className="space-y-1">
+    {profile.certifications.map((certification) => (
+      <li key={certification.name}>
+        {certification.issuer}: {certification.name}
+        {certification.url && (
+          <a
+            href={certification.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-2 inline-flex items-center gap-1 text-sm text-accent hover:underline"
+          >
+            Verify
+            <ArrowUpRightIcon className="size-3" />
+          </a>
+        )}
+      </li>
+    ))}
+  </ul>
+);
+
 /** The answers to a recruiter's screening questions, in the order they usually ask them. */
-const facts: { label: string; value: string; highlight?: boolean }[] = [
+const facts: { label: string; value: ReactNode; highlight?: boolean }[] = [
   { label: "Role", value: profile.role },
   { label: "Experience", value: "5 years · India & UK" },
   {
@@ -31,6 +53,7 @@ const facts: { label: string; value: string; highlight?: boolean }[] = [
   { label: "Availability", value: profile.openTo.availability, highlight: true },
   { label: "Based in", value: profile.location },
   { label: "Education", value: `${masters.degree}, ${masters.school} (${masters.year})` },
+  { label: "Certified", value: certifications },
 ];
 
 export function About() {

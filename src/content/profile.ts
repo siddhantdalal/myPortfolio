@@ -48,7 +48,11 @@ export const profile = {
     },
     { degree: "BCA Computer Science", school: "Sri Shivaji Science College, Nagpur", year: 2019 },
   ],
-  certifications: ["HackerRank Frontend Developer (React)", "HackerRank Angular (Intermediate)"],
+  /** `url` is the public credential page; a "Verify" link appears once it is set. */
+  certifications: [
+    { name: "Frontend Developer (React)", issuer: "HackerRank", url: null as string | null },
+    { name: "Angular (Intermediate)", issuer: "HackerRank", url: null as string | null },
+  ],
   resume: "/Siddhant_Dalal_Resume.pdf",
   links: {
     github: "https://github.com/siddhantdalal",
