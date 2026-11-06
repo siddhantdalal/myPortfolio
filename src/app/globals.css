@@ -214,3 +214,67 @@
     animation: none;
   }
 }
+
+/*
+ * Hero portrait. The cut-out's arms are cropped by the photo's edges, so the mask fades the sides
+ * and the bottom into the page instead of showing a hard line.
+ */
+.portrait-mask {
+  -webkit-mask-image:
+    linear-gradient(to bottom, #000 64%, transparent 97%),
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, #000 64%, transparent 97%),
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent);
+  mask-composite: intersect;
+}
+
+/* Rises out of its own frame, like the name above it. */
+@keyframes portrait-in {
+  from {
+    clip-path: inset(100% -20% -20% -20%);
+    transform: translateY(32px);
+  }
+  to {
+    clip-path: inset(-20% -20% -20% -20%);
+    transform: none;
+  }
+}
+
+@utility animate-portrait-in {
+  animation: portrait-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@utility animate-float {
+  animation: float 6s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* A packet travelling round the portrait's ring, the same motif as the architecture diagrams. */
+@keyframes orbit {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@utility animate-orbit {
+  animation: orbit 14s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
