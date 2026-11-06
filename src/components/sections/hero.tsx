@@ -3,12 +3,13 @@ import { profile } from "@/content/profile";
 import { RESUME_HASH } from "@/lib/resume";
 import { AnimatedName } from "../hero/animated-name";
 import { HeroBackdrop } from "../hero/hero-backdrop";
-import { HeroPortrait } from "../hero/hero-portrait";
 import { RotatingText } from "../hero/rotating-text";
+import { SystemGraph } from "../hero/system-graph";
 import { ArrowDownIcon, ArrowRightIcon, FileIcon, GitHubIcon, LinkedInIcon } from "../icons";
 import { CompanyLogo } from "../ui/company-logo";
 import { CountUp } from "../ui/count-up";
 import { Magnetic } from "../ui/magnetic";
+import { Portrait } from "../ui/portrait";
 
 const heroMetrics = profile.metrics.filter((metric) => "hero" in metric && metric.hero);
 
@@ -24,18 +25,18 @@ export function Hero() {
       className="relative isolate flex min-h-[100svh] items-center overflow-x-clip pt-24 pb-16 sm:pt-28"
     >
       <HeroBackdrop />
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-6 px-4 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:gap-10">
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:gap-10">
         <div>
-          <p
-            className="animate-fade-up mb-5 inline-flex items-center gap-2.5 rounded-full border border-ok/30 bg-ok/10 px-3 py-1.5 text-xs font-medium text-ok"
-            style={{ animationDelay: "0s" }}
-          >
-            <span className="relative flex size-2">
-              <span className="animate-pulse-ring absolute inset-0 rounded-full bg-ok" />
-              <span className="relative size-2 rounded-full bg-ok" />
-            </span>
-            Open to work · {profile.openTo.availability}
-          </p>
+          <div className="animate-fade-up mb-5 flex items-center gap-4" style={{ animationDelay: "0s" }}>
+            <Portrait size={72} openToWork priority className="size-[60px] sm:size-[72px]" />
+            <p className="inline-flex items-center gap-2.5 rounded-full border border-ok/30 bg-ok/10 px-3 py-1.5 text-xs font-medium text-ok">
+              <span className="relative flex size-2">
+                <span className="animate-pulse-ring absolute inset-0 rounded-full bg-ok" />
+                <span className="relative size-2 rounded-full bg-ok" />
+              </span>
+              Open to work · {profile.openTo.availability}
+            </p>
+          </div>
 
           <h1
             id="hero-title"
@@ -144,9 +145,12 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Shown first on phones, so visitors see who they're reading about before the details. */}
-        <div className="max-lg:order-first">
-          <HeroPortrait />
+        <div className="animate-fade-up" style={{ animationDelay: "0.2s" }}>
+          <SystemGraph />
+          <p className="mt-3 text-center font-mono text-[11px] text-subtle">
+            <span className="hidden pointer-fine:inline">Hover</span>
+            <span className="pointer-fine:hidden">Tap</span> a component to see where I&apos;ve used it
+          </p>
         </div>
       </div>
 
