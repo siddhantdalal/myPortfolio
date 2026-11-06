@@ -4,9 +4,9 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { useEffect, useState } from "react";
 import { type SectionId, sections } from "@/content/navigation";
 import { profile } from "@/content/profile";
-import { withBasePath } from "@/lib/paths";
+import { RESUME_HASH } from "@/lib/resume";
 import { openCommandPalette } from "./command-palette";
-import { CloseIcon, DownloadIcon, MenuIcon, SearchIcon } from "./icons";
+import { CloseIcon, FileIcon, MenuIcon, SearchIcon } from "./icons";
 import { ThemeToggle } from "./theme-toggle";
 
 /** Tracks which section sits in the middle band of the viewport. */
@@ -105,11 +105,10 @@ export function SiteHeader() {
             <kbd className="font-mono">⌘K</kbd>
           </button>
           <a
-            href={withBasePath(profile.resume)}
-            download
+            href={RESUME_HASH}
             className="hidden h-9 items-center gap-1.5 rounded-full px-3 text-sm text-muted transition-colors hover:text-fg lg:flex"
           >
-            <DownloadIcon className="size-3.5" />
+            <FileIcon className="size-3.5" />
             Résumé
           </a>
           <ThemeToggle />
@@ -170,12 +169,12 @@ export function SiteHeader() {
                 transition={{ delay: 0.05 + sections.length * 0.05 }}
               >
                 <a
-                  href={withBasePath(profile.resume)}
-                  download
+                  href={RESUME_HASH}
+                  onClick={() => setMenuOpen(false)}
                   className="flex items-center gap-2 rounded-xl px-4 py-3 text-lg text-accent"
                 >
-                  <DownloadIcon className="size-4" />
-                  Download résumé
+                  <FileIcon className="size-4" />
+                  View résumé
                 </a>
               </motion.li>
             </ul>

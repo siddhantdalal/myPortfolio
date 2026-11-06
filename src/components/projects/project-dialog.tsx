@@ -1,16 +1,15 @@
 "use client";
 
 import { motion } from "motion/react";
-import { type KeyboardEvent, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { getExperience } from "@/content/experience";
 import type { Project } from "@/content/projects";
 import { getSkill } from "@/content/skills";
+import { useModal } from "@/lib/use-modal";
 import { ArchitectureDiagram } from "../diagram/architecture-diagram";
 import { ArrowUpRightIcon, CheckIcon, CloseIcon, GitHubIcon } from "../icons";
 import { Tag } from "../ui/tag";
 import { OrgBadge } from "./project-card";
-
-const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 /**
  * Project detail. The panel shares a layoutId with its card, so it grows out of the card when opened
@@ -20,36 +19,7 @@ export function ProjectDialog({ project, onClose }: { project: Project; onClose:
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const titleId = `project-dialog-${project.id}`;
-
-  useEffect(() => {
-    closeRef.current?.focus({ preventScroll: true });
-    const root = document.documentElement;
-    const previous = root.style.overflow;
-    root.style.overflow = "hidden";
-    return () => {
-      root.style.overflow = previous;
-    };
-  }, []);
-
-  // Keeps Tab inside the dialog and lets Escape close it.
-  function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-    if (event.key === "Escape") {
-      event.stopPropagation();
-      onClose();
-      return;
-    }
-    if (event.key !== "Tab" || !panelRef.current) return;
-    const focusable = Array.from(panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE));
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  }
+  const onKeyDown = useModal(panelRef, closeRef, onClose);
 
   const org = project.org === "personal" ? "Personal project" : getExperience(project.org).company;
 

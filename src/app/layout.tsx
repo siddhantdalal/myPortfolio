@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { CommandPalette } from "@/components/command-palette";
 import { MobileContactBar } from "@/components/mobile-contact-bar";
 import { Providers } from "@/components/providers";
+import { ResumeDialog } from "@/components/resume/resume-dialog";
+import { ResumeSheet } from "@/components/resume/resume-sheet";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -79,6 +81,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SiteFooter />
           <MobileContactBar />
           <CommandPalette />
+          <ResumeDialog>
+            <ResumeSheet />
+          </ResumeDialog>
           <Toaster />
         </Providers>
       </body>

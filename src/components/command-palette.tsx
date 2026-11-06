@@ -15,11 +15,13 @@ import { sections } from "@/content/navigation";
 import { profile } from "@/content/profile";
 import { copyEmail, openChannel } from "@/lib/connect-actions";
 import { withBasePath } from "@/lib/paths";
+import { openResume } from "@/lib/resume";
 import { toggleTheme } from "@/lib/theme";
 import {
   ArrowRightIcon,
   CopyIcon,
   DownloadIcon,
+  FileIcon,
   GitHubIcon,
   LinkedInIcon,
   MailIcon,
@@ -60,6 +62,7 @@ function buildCommands(): Command[] {
       run: () => openChannel("whatsapp"),
     },
     { id: "copy-email", label: "Copy email address", group: "Connect", icon: <CopyIcon />, run: copyEmail },
+    { id: "view-resume", label: "View résumé", group: "More", icon: <FileIcon />, run: openResume },
     {
       id: "resume",
       label: "Download résumé (PDF)",

@@ -2,8 +2,8 @@ import type { ReactNode } from "react";
 import { experience } from "@/content/experience";
 import { profile } from "@/content/profile";
 import { formatRange, formatYearMonth } from "@/lib/format";
-import { withBasePath } from "@/lib/paths";
-import { ArrowRightIcon, ArrowUpRightIcon, DownloadIcon } from "../icons";
+import { RESUME_HASH } from "@/lib/resume";
+import { ArrowRightIcon, ArrowUpRightIcon, FileIcon } from "../icons";
 import { CountUp } from "../ui/count-up";
 import { Portrait } from "../ui/portrait";
 import { Reveal, Stagger, StaggerItem } from "../ui/reveal";
@@ -107,12 +107,11 @@ export function About() {
                   <ArrowRightIcon className="transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
                 <a
-                  href={withBasePath(profile.resume)}
-                  download
+                  href={RESUME_HASH}
                   className="group inline-flex h-10 items-center gap-2 rounded-full border border-line-strong px-5 text-sm transition-colors hover:border-accent hover:text-accent"
                 >
-                  <DownloadIcon className="transition-transform duration-300 group-hover:translate-y-0.5" />
-                  Download résumé
+                  <FileIcon className="transition-transform duration-300 group-hover:-translate-y-0.5" />
+                  View résumé
                 </a>
                 <p className="ml-auto self-center font-mono text-[10px] text-subtle">Updated {updated}</p>
               </div>

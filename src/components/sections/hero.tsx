@@ -1,11 +1,11 @@
 import { experience } from "@/content/experience";
 import { profile } from "@/content/profile";
-import { withBasePath } from "@/lib/paths";
+import { RESUME_HASH } from "@/lib/resume";
 import { AnimatedName } from "../hero/animated-name";
 import { HeroBackdrop } from "../hero/hero-backdrop";
 import { RotatingText } from "../hero/rotating-text";
 import { SystemGraph } from "../hero/system-graph";
-import { ArrowDownIcon, ArrowRightIcon, DownloadIcon, GitHubIcon, LinkedInIcon } from "../icons";
+import { ArrowDownIcon, ArrowRightIcon, FileIcon, GitHubIcon, LinkedInIcon } from "../icons";
 import { CompanyLogo } from "../ui/company-logo";
 import { CountUp } from "../ui/count-up";
 import { Magnetic } from "../ui/magnetic";
@@ -100,11 +100,10 @@ export function Hero() {
             </Magnetic>
             <Magnetic>
               <a
-                href={withBasePath(profile.resume)}
-                download
+                href={RESUME_HASH}
                 className="group inline-flex h-12 items-center gap-2 rounded-full border border-line-strong px-6 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
               >
-                <DownloadIcon className="transition-transform duration-300 group-hover:translate-y-0.5" />
+                <FileIcon className="transition-transform duration-300 group-hover:-translate-y-0.5" />
                 Résumé
               </a>
             </Magnetic>
