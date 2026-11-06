@@ -230,24 +230,89 @@
   mask-composite: intersect;
 }
 
-/* Rises out of its own frame, like the name above it. */
-@keyframes portrait-in {
+/*
+ * Load: an accent scan line passes down the portrait and the photo appears behind it. The clip edge
+ * and the line share one timing curve and travel range, so the line always sits on the edge.
+ */
+@keyframes scan-reveal {
   from {
-    clip-path: inset(100% -20% -20% -20%);
-    transform: translateY(32px);
+    clip-path: inset(-20% -20% 120% -20%);
   }
   to {
     clip-path: inset(-20% -20% -20% -20%);
-    transform: none;
   }
 }
 
-@utility animate-portrait-in {
-  animation: portrait-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+@keyframes scan-line {
+  0% {
+    transform: translateY(-20%);
+    opacity: 0;
+  }
+  8%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+}
+
+@utility animate-scan-reveal {
+  animation: scan-reveal 1.7s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
+}
+
+@utility animate-scan-line {
+  animation: scan-line 1.7s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+}
+
+/* Idle: a slow breath, anchored at the waist so the head moves most, as it would. */
+@keyframes breathe {
+  50% {
+    transform: translateY(-4px) scale(1.012);
+  }
+}
+
+@utility animate-breathe {
+  transform-origin: 50% 100%;
+  animation: breathe 7s ease-in-out 2s infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* A band of light crossing the silhouette every few seconds, then a pause. */
+@keyframes sheen {
+  0% {
+    transform: translateX(0) skewX(-16deg);
+  }
+  18%,
+  100% {
+    transform: translateX(700%) skewX(-16deg);
+  }
+}
+
+@utility animate-sheen {
+  animation: sheen 7s cubic-bezier(0.45, 0, 0.25, 1) 2.2s infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+}
+
+/* Clips the light to the person: the cut-out itself is the mask (set as --portrait). */
+.portrait-sheen {
+  -webkit-mask: var(--portrait) top center / cover no-repeat;
+  mask: var(--portrait) top center / cover no-repeat;
 }
 
 @keyframes float {

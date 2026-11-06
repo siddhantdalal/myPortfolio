@@ -10,7 +10,7 @@ import {
   useTransform,
 } from "motion/react";
 import Image from "next/image";
-import { useEffect } from "react";
+import { type CSSProperties, useEffect } from "react";
 import cutout from "@/assets/siddhant-cutout.webp";
 import { profile } from "@/content/profile";
 
@@ -49,14 +49,21 @@ const chips: Chip[] = [
 const SPRING = { stiffness: 60, damping: 18 };
 
 /**
- * Cut-out portrait on an accent ring. It drifts more slowly than the page as you scroll and tilts
- * towards a mouse pointer; on phones it shows head and shoulders so the text below stays close.
+ * Cut-out portrait on an accent ring. The photo itself is never altered; the motion is layered on:
+ * a scan line renders it in on load, then it breathes, a band of light crosses it now and then, it
+ * tips back as the page scrolls and tilts towards a mouse pointer. On phones it shows head and
+ * shoulders so the text below stays close.
+ *
+ * Each effect lives on its own element, so the CSS animations and Motion's transforms never compete
+ * for the same `transform`.
  */
 export function HeroPortrait() {
   const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const scrollShift = useTransform(scrollY, [0, 800], [0, 110]);
   const scrollFade = useTransform(scrollY, [0, 700], [1, 0.35]);
+  const scrollTilt = useTransform(scrollY, [0, 600], [0, 10]);
+  const scrollScale = useTransform(scrollY, [0, 600], [1, 0.95]);
 
   // Pointer position across the window, from -1 to 1 on each axis.
   const pointerX = useMotionValue(0);
@@ -79,7 +86,17 @@ export function HeroPortrait() {
 
   return (
     <motion.div
-      style={reduceMotion ? undefined : { y: scrollShift, opacity: scrollFade }}
+      style={
+        reduceMotion
+          ? undefined
+          : {
+              y: scrollShift,
+              opacity: scrollFade,
+              rotateX: scrollTilt,
+              scale: scrollScale,
+              transformPerspective: 1000,
+            }
+      }
       className="relative mx-auto aspect-square w-[min(72vw,20rem)] lg:aspect-auto lg:w-[min(27rem,52svh)]"
     >
       {/* Glow and ring sit behind the cut-out, so the orbiting packet passes behind the head. */}
@@ -95,18 +112,31 @@ export function HeroPortrait() {
         </div>
       </div>
 
-      <div className="animate-portrait-in relative h-full">
+      <div className="animate-scan-reveal relative h-full">
         <motion.div
           style={reduceMotion ? undefined : { rotateX, rotateY, x: shift, transformPerspective: 1200 }}
           className="h-full"
         >
-          <Image
-            src={cutout}
-            alt={`Photo of ${profile.name}`}
-            priority
-            className="portrait-mask h-full w-full object-cover object-top lg:h-auto"
-          />
+          <div className="animate-breathe portrait-mask relative h-full">
+            <Image
+              src={cutout}
+              alt={`Photo of ${profile.name}`}
+              priority
+              className="h-full w-full object-cover object-top lg:h-auto"
+            />
+            {/* The light falls only on the person: the cut-out is this layer's mask. */}
+            <div
+              aria-hidden="true"
+              className="portrait-sheen pointer-events-none absolute inset-0 overflow-hidden"
+              style={{ "--portrait": `url(${cutout.src})` } as CSSProperties}
+            >
+              <span className="animate-sheen absolute inset-y-0 -left-1/5 w-1/5 bg-linear-to-r from-transparent via-white/30 to-transparent" />
+            </div>
+          </div>
         </motion.div>
+      </div>
+      <div aria-hidden="true" className="animate-scan-line pointer-events-none absolute inset-0">
+        <span className="absolute inset-x-[4%] top-0 h-0.5 rounded-full bg-accent shadow-[0_0_24px_4px_var(--accent)]" />
       </div>
 
       {chips.map((chip, index) => (
